@@ -27,7 +27,7 @@ export const Sidebar = () => {
     <div className="flex flex-col">
       <div className="h-16 flex flex-col items-center justify-center p-3 text-xl font-bold w-15 md:w-64 mx-auto my-3"> 
        <span className="hidden md:block">Gestion Stocks</span>
-       <span className="block md:hidden">SGS</span>
+       <span className="block md:hidden">WGS</span>
       </div>
 
       <div>
@@ -37,7 +37,6 @@ export const Sidebar = () => {
               <NavLink to={item.path} 
               className={({isActive}) => (isActive ? "bg-violet-800" : "" ) + " flex items-center px-3 py-2 w-10 md:w-50 mx-auto rounded-md mx-2 hover:bg-violet-800 transition duration-200" } 
               end = {item.isParent}>
-              
               <span className="mr-2 text-xl">{item.icon}</span>
               <span className="hidden md:block">{item.name}</span>
               </NavLink>
