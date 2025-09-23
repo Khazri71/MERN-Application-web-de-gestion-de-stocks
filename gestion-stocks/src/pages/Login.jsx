@@ -8,8 +8,8 @@ import { useNavigate } from "react-router"
 export const Login = () => {
 
   const {loginLr} = useAuthContext()
-  const [email , setEmail] = useState()
-  const [password , setPassword] = useState()
+  const [userEmail , setUserEmail] = useState()
+  const [userPassword , setUserPassword] = useState()
   const [error , setError] = useState()
   const navigate = useNavigate()
 
@@ -20,13 +20,13 @@ export const Login = () => {
     e.preventDefault()
 
     try{
-      const response = await axios.post("http://localhost:3001/api/auth/login" , {email , password})
+      const response = await axios.post("http://localhost:3001/api/auth/login" , {userEmail , userPassword})
 
       if(response.status === 200){
         //Enrgistrer les informations de l'utilisateur connecté dans le localstorage
          await loginLr(response.data.user , response.data.token)
           console.log(response.data)
-         if(response.data.user.role === "admin"){
+         if(response.data.user.userRole === "admin"){
              navigate("/admin-dashboard/")
          }else{
             navigate("/customer-dashboard/")
@@ -43,8 +43,9 @@ export const Login = () => {
   return (
    <>
    
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-100" >
+<div className="bg-white  lg:w-1/3 md:w-2/3  md:mx-auto w-full  py-5 px-3 rounded-lg">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
           <img
             alt="logo"
             src="logoecom.png"
@@ -76,12 +77,12 @@ export const Login = () => {
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
+                  name="userEmail"
                   type="email"
                   required
                   autoComplete="email"
                   placeholder="Entrer Email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setUserEmail(e.target.value)}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>
@@ -97,12 +98,12 @@ export const Login = () => {
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  name="userPassxord"
                   type="password"
                   required
                   autoComplete="current-password"
                   placeholder="Entrer Mot de passe"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setUserPassword(e.target.value)}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>
@@ -125,6 +126,7 @@ export const Login = () => {
             </a>
           </p>
         </div>
+      </div>
       </div>
 
    </>

@@ -8,20 +8,20 @@ import jwt from "jsonwebtoken"
 
 const login = async  (req , res) => {
     try{
-        const {email , password} = req.body;
+        const {userEmail , userPassword} = req.body;
         connectDB()
-        const user = await UserModel.findOne({email})
+        const user = await UserModel.findOne({userEmail})
         if(!user){
             return res.status(404).json({success: false , message: "Compte n'existe pas"})
         }
 
-        const ispass = await bcrypt.compare(password , user.password);
+        const ispass = await bcrypt.compare(userPassword , user.userPassword);
         if(!ispass){
             return res.status(401).json({success: false , message : "Mot de passe incorrecte"})
         }
 
-        const token = jwt.sign({id: user._id , role: user.role}, process.env.JWT_SECRET , {expiresIn: "2d"} )
-        return res.status(200).json({success: true , message: "Connexion réussie avec succès", token , user: {id: user._id , name:user.name, email:user.email, role: user.role}});
+        const token = jwt.sign({id: user._id , role: user.userRole}, process.env.JWT_SECRET , {expiresIn: "2d"} )
+        return res.status(200).json({success: true , message: "Connexion réussie avec succès", token , user: {id: user._id , userName:user.userName, userEmail:user.userEmail, userRole: user.userRole}});
 
 
     }catch(err){

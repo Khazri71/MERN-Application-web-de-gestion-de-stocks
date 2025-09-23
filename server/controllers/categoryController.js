@@ -1,6 +1,7 @@
 
 import { data } from "react-router";
 import CategoryModel from "../models/Category.js";
+import ProductModel from "../models/Product.js";
 
 
 const addCategory = async (req , res) => {
@@ -46,7 +47,7 @@ const getCategories = async (req , res) => {
 const updateCategory = async (req , res) => {
 
    try{
-     const {id} = req.param;
+     const {id} = req.params;
      const {categoryName , categoryDescription} = req.body;
 
      const existCategory = await CategoryModel.findById(id);
@@ -62,8 +63,8 @@ const updateCategory = async (req , res) => {
 
 
    }catch(error){
-      console.log("Erreur de serveur lors de modification de catégorie" , error)
-      return res.status(500).json({success: false , message : "Erreur de serveur"})
+      console.log("Erreur de serveur lors de modification de catégorie" , error);
+      return res.status(500).json({success: false , message : "Erreur de serveur"});
    }
 }
 
@@ -71,6 +72,15 @@ const updateCategory = async (req , res) => {
 const deleteCategory = async (req , res) => {
    try{
       const {id} = req.params;
+
+      const productCountWithThisCategory = await ProductModel.countDocuments({productCategoryId : id});
+      if(productCountWithThisCategory > 0) {
+         return res.status(400).json({success : false , message : "Vous pouvez pas supprimé cette catégorie associée aux produits"});
+      }
+
+
+
+
       const existCategory = await CategoryModel.findById(id);
       if(!existCategory){
          return res.status(404).json({success: true , message: "Catégorie introuvable"})
@@ -81,7 +91,7 @@ const deleteCategory = async (req , res) => {
 
    }catch(error){
      console.log("Erreur de serveur lors de suppression de catégorie" , error)
-     return res.status(200).json({success: false , message:"Erreur de serveur"})
+     return res.status(500).json({success: false , message:"Erreur de serveur"})
    }
 }
 

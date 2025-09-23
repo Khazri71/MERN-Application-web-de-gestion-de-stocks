@@ -13,9 +13,10 @@ export const ProtectedRoutes = ({children , requireRole}) => {
     const navigate = useNavigate()
     useEffect(() => {
         if(!user){
-            navigate("/login")
+            navigate("/login");
+           
         }
-        if(!requireRole.includes(user.role)){
+        if(requireRole && user && !requireRole.includes(user.userRole)){
             navigate("/unauthorized")
         }
 

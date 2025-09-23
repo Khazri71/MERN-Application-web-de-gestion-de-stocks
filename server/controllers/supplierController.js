@@ -1,4 +1,5 @@
 
+import ProductModel from "../models/Product.js";
 import SupplierModel from "../models/Supplier.js";
 
 
@@ -69,6 +70,15 @@ const updateSupplier = async (req , res) => {
 const deleteSupplier = async (req , res) => {
   try{
     const {id} = req.params;
+
+    const productCountWithThisSupplier = await ProductModel.countDocuments({productSupplierId : id});
+     if(productCountWithThisSupplier > 0){
+          return res.status(400).json({success : false , message :  "Vous pouvez pas supprimé cette fournisseur associée aux produits"});
+     }
+
+
+
+
     const existSupplier = await SupplierModel.findById(id);
     if(!existSupplier){
       return res.status(404).json({success : true , message : "Fournisseur introuvable"});

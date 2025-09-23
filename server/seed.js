@@ -11,11 +11,11 @@ const register = async () => {
     connectDB();
     const hashPassword = await bcrypt.hash("admin" , 10);
     const newUser = new UserModel({
-        name: "admin",
-        email: "admin123@gmail.com",
-        password: hashPassword,
-        address: "Tunis, Manouba",
-        role : "admin"
+        userName: "admin",
+        userEmail: "admin888@gmail.com",
+        userPassword: hashPassword,
+        userAddress: "Tunis, Manouba",
+        userRole : "admin"
     })
     await newUser.save();
         console.log("Admin créé avec succés");

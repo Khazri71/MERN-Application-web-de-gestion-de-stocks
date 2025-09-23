@@ -1,14 +1,15 @@
 import express from "express";
 import { addCategory, getCategories , updateCategory , deleteCategory } from "../controllers/categoryController.js";
+import authMiddleware from "../middleware/authmiddleware.js";
 
 
 
 const router = express.Router();
 
 
-router.post("/add" , addCategory)
-router.get("/" , getCategories)
-router.put("/:id" , updateCategory)
-router.delete("/:id" , deleteCategory)
+router.post("/add" , authMiddleware , addCategory)
+router.get("/" , authMiddleware , getCategories)
+router.put("/:id" , authMiddleware, updateCategory)
+router.delete("/:id" , authMiddleware , deleteCategory)
 
 export default router;

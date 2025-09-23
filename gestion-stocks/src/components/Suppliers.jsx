@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { IoClose } from "react-icons/io5";
+import { IoClose , IoSearch } from "react-icons/io5";
+
 
 export const Suppliers = () => {
 
@@ -15,7 +16,7 @@ export const Suppliers = () => {
   const [isLoading , setIsLoading] = useState(false)
   const [addSupplier , setAddSupplier] = useState(false)
   const [editSupplier , setEditSupplier] = useState(null)
-
+  const [filtredSuppliers , setFiltredSuppliers] = useState(suppliers);
 
 
 
@@ -92,6 +93,7 @@ export const Suppliers = () => {
     if(response.data.success){
       setIsLoading(false)
       setSuppliers(data);
+      setFiltredSuppliers(data)
       console.log(data)
     }else{
       setIsLoading(false)
@@ -144,6 +146,9 @@ export const Suppliers = () => {
 
 
   const handleDeleteSupplier = async (id) => {
+
+   try{
+    
     const confirmDelete =  window.confirm("Êtes-vous sûr de vouloir supprimer cet fournisseur ?");
     console.log(confirmDelete)
 
@@ -155,15 +160,28 @@ export const Suppliers = () => {
       }
     });
     if(response.data.success){
-      console.log("Fournisseur ajouté avec succès");
+      console.log("Fournisseur supprimé avec succès");
       handleGetSuppliers()
     }else{
       console.eror("Erreur de suppression de fournisseur" , response.data.message)
     }
     }
+
+   }catch(error){
+    if(error.response){
+      alert(error.response.data.message);
+    }else{
+       alert("Erreur de serveur : " , error);
+    }
+   }
   }
 
+const  handleSearchSuppliersByName = (e) => {
+  setFiltredSuppliers(
+    suppliers.filter((supplier) => supplier.supplierName.toLowerCase().includes(e.target.value))
+  )
 
+}
 
 
 // if(isLoading) return <div>Chargement...</div>
@@ -173,8 +191,16 @@ export const Suppliers = () => {
         Gestion des fournisseurs
       </h1>
 
+
+ <div className="flex justify-between items-center">
+         <div className="ml-5 bg-white w-2/6 px-2 py-1 rounded-lg border border-gray-300 flex items-center ">
+       <input type="text"  placeholder="Chercher fournisseurs par nom ..."   className="focus:outline-none w-full " 
+        onChange={handleSearchSuppliersByName}
+       /> <IoSearch />
+     </div>
+
       <div className="flex justify-between mx-5 my-5">
-        <div>rechercher</div>
+      
         <button className="cursor-pointer block text-sm/6 font-medium bg-violet-700 hover:bg-violet-600 text-white py-2 px-3 rounded-lg"  
         onClick={handleAddSupplier}
         > 
@@ -182,7 +208,7 @@ export const Suppliers = () => {
         </button>
       </div>
 
-
+</div>  
     {/* Modal  */}
     {addEditModal && (
 
@@ -210,7 +236,7 @@ export const Suppliers = () => {
                     type="text"
                     placeholder="Entrer le nom du fournisseur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-gray-400"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
                     onChange={handleChange}
                     name = "supplierName"
                     value={formData.supplierName}
@@ -233,7 +259,7 @@ export const Suppliers = () => {
                     type="text"
                     placeholder="Entrer l'email du fournisseur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-gray-400"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
                     onChange={handleChange}
                     name="supplierEmail"
                     value={formData.supplierEmail}
@@ -255,7 +281,7 @@ export const Suppliers = () => {
                     type="text"
                     placeholder="Entrer le téléphone du fournisseur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-gray-400"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
                     onChange={handleChange}
                     name="supplierPhone"
                     value={formData.supplierPhone}
@@ -276,7 +302,7 @@ export const Suppliers = () => {
                   cols="35"
                   rows="4"
                   placeholder="Entrer l'adresse du fournisseur"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-gray-400"
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
                   onChange={handleChange}
                   name="supplierAddress"
                   value={formData.supplierAddress}
@@ -345,12 +371,12 @@ export const Suppliers = () => {
           <table className="w-full border border-violet-100" >
             <thead>
               <tr className="bg-violet-100">
-                <th className="px-4 py-3 font-bold text-sm/6 ">S. No</th>
-                <th   className="px-4 py-3 font-bold text-sm/6 ">Nom </th>
-                <th  className="px-4 py-3 font-bold text-sm/6 " >Email</th> 
-                 <th  className="px-4 py-3 font-bold text-sm/6 " >Téléphone</th> 
-                  <th  className="px-4 py-3 font-bold text-sm/6 " >Adresse</th> 
-                <th   className="px-4 py-3 font-bold text-sm/6 ">Action</th>
+                <th className="px-4 py-3 font-bold text-sm/6 text-center">S. No</th>
+                <th   className="px-4 py-3 font-bold text-sm/6 text-center ">Nom </th>
+                <th  className="px-4 py-3 font-bold text-sm/6 text-center " >Email</th> 
+                 <th  className="px-4 py-3 font-bold text-sm/6 text-center " >Téléphone</th> 
+                  <th  className="px-4 py-3 font-bold text-sm/6 text-center " >Adresse</th> 
+                <th   className="px-4 py-3 font-bold text-sm/6 text-center ">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -358,14 +384,14 @@ export const Suppliers = () => {
              
              
 
-              {suppliers && suppliers.map((supplier , index)=> (
+              {filtredSuppliers && filtredSuppliers.map((supplier , index)=> (
                 <tr key={index}>
-                <td   className="px-4 py-3 font-bold text-sm/6">{index + 1}</td>
-                <td   className="px-4 py-3 text-sm/6">{supplier.supplierName}</td>
-                <td   className="px-4 py-3 text-sm/6">{supplier.supplierEmail}</td>
-                <td   className="px-4 py-3 text-sm/6">{supplier.supplierPhone}</td>
-                <td   className="px-4 py-3 text-sm/6">{supplier.supplierAddress}</td>
-                <td   className="px-4 py-3 text-sm/6 flex flex-row mx-auto">
+                <td   className="px-4 py-3 font-bold text-sm/6 text-center">{index + 1}</td>
+                <td   className="px-4 py-3 text-sm/6 text-center">{supplier.supplierName}</td>
+                <td   className="px-4 py-3 text-sm/6 text-center">{supplier.supplierEmail}</td>
+                <td   className="px-4 py-3 text-sm/6 text-center">{supplier.supplierPhone}</td>
+                <td   className="px-4 py-3 text-sm/6 text-center">{supplier.supplierAddress}</td>
+                <td   className="px-4 py-3 text-sm/6 flex flex-row  justify-center items-center">
                    <button
                 className="cursor-pointer block text-sm/6 font-medium bg-blue-700 hover:bg-blue-600 text-white py-2 px-3 rounded-lg mr-2"
                 onClick={() => handleEditSupplier(supplier) }
@@ -388,6 +414,7 @@ export const Suppliers = () => {
 
             </tbody>
           </table>
+              {filtredSuppliers.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucun fournisseur trouvé </p>}
         </div>
     
     

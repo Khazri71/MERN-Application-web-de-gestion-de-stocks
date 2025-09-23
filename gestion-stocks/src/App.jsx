@@ -12,7 +12,10 @@ import { Categories } from './components/Categories'
 import { Suppliers } from './components/Suppliers'
 import { Orders } from './components/Orders'
 import { Users } from './components/Users'
-import { Profil } from './components/Profil'
+import { Profile } from './components/Profile'
+import { Logout } from './components/Logout'
+import { ProductsCustomer } from './components/ProductsCustomer'
+
 
 function App() {
   
@@ -33,11 +36,28 @@ function App() {
               <Route  path="suppliers" element={<Suppliers/>}  /> 
               <Route  path="orders" element={<Orders/>}  /> 
               <Route  path="users" element={<Users/>}  /> 
-              <Route  path="profil" element={<Profil/>}  /> 
+              <Route  path="profile" element={<Profile/>}  /> 
+              <Route path="logout" element={<Logout/>}  />
             </Route>
             
             
-            <Route path="/customer-dashboard/"  element={<CustomerDashboard/>} />
+            <Route path="/customer-dashboard/"  element={<CustomerDashboard/>} >
+
+             <Route index element={<ProductsCustomer/>} />
+             <Route  path="products" element={<ProductsCustomer/>}  /> 
+             <Route path="orders" element={<Orders/>} />
+              <Route  path="profile" element={<Profile/>}  /> 
+             <Route path="logout" element={<Logout/>}  />
+             
+
+
+
+            </Route>
+
+
+
+
+
             <Route path="/unauthorized"  element={<Unauthorized/>}/>
           </Routes>
         </Router>

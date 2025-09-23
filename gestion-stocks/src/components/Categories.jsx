@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import  {useEffect , useState } from "react";
+import { IoSearch } from "react-icons/io5";
+
 
 export const Categories = () => {
   const [categoryName, setCategoryName] = useState("");
@@ -9,7 +10,8 @@ export const Categories = () => {
   const [categories , setCategories] = useState([]);
   const [isLoading , setIsLoading] = useState(true);
 
-  const [editCategory , setEditCategory] = useState(null)
+  const [editCategory , setEditCategory] = useState(null);
+  const [filtredCategories , setFiltredCategories] = useState(categories);
 
 
 
@@ -88,6 +90,7 @@ export const Categories = () => {
       if (response.data.success){
          setIsLoading(false)
         setCategories(data)
+        setFiltredCategories(data)
         console.log(data)
       }else{
          setIsLoading(false)
@@ -121,7 +124,11 @@ export const Categories = () => {
  
 
   const handleDeleteCategory = async (id) => {
-    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?");
+
+
+    try{
+
+      const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?");
     console.log(confirmDelete)
     if(confirmDelete){
         const response = await axios.delete(`http://localhost:3001/api/category/${id}` , 
@@ -139,18 +146,45 @@ export const Categories = () => {
          console.error("Erreur de suppression de catégorie", response.data.message);
       }
     }
+      
+    }catch(error){
+      if(error.response){
+        alert(error.response.data.message);
+      }else{
+         alert("Erreur de serveur : " , error);
+      }
+     
+
+    }
+    
   }
   
 
+  const handleSearchCategoriesByName = (e) => {
+      setFiltredCategories(
+        categories.filter((category) => category.categoryName.toLowerCase().includes(e.target.value) )
+      )
+  }
 
 
   if(isLoading) return <div>chargement...</div>
 
   return (
     <>
-      <h1 className="text-center text-2xl font-bold my-5">
+      <h1 className="ms-5 text-2xl font-bold my-5">
         Gestion des catégories
       </h1>
+
+
+   
+          <div className="ml-5 bg-white w-2/6 px-2 py-1 rounded-lg border border-gray-300 flex items-center ">
+       <input type="text"  placeholder="Chercher catégorie par nom ..."   className="focus:outline-none w-full " 
+        onChange={handleSearchCategoriesByName}
+       /> <IoSearch />
+     </div>
+
+
+
       <div className=" flex flex-col lg:flex-row">
         <div className="bg-white m-5 p-4  rounded-lg lg:w-1/3">
         <h2 className=" text-lg font-bold mb-3">{editCategory ? "Modifier Catégorie" : "Ajouter Catégorie"}</h2>
@@ -169,7 +203,7 @@ export const Categories = () => {
                     type="text"
                     placeholder="Entrer le nom de la catégorie"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-gray-400"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
                     onChange={(e) => setCategoryName(e.target.value)}
                     value={categoryName}
                   />
@@ -188,18 +222,17 @@ export const Categories = () => {
                   cols="35"
                   rows="4"
                   placeholder="Entrer la description de la catégorie"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-gray-400"
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
                   onChange={(e) => setCategoryDescription(e.target.value)}
                   value={categoryDescription}
 
                 ></textarea>
               </div>
               <div className="flex ">
-                
-              <button
+
+                 <button
                 type="submit"
-                className="cursor-pointer block text-sm/6 font-medium bg-violet-700 hover:bg-violet-600 text-white py-2 px-3 rounded-lg mr-2 w-full"
-              >
+                className = {`${editCategory ?  "bg-blue-700 hover:bg-blue-600 block w-[50%] w-full" : "bg-violet-700 hover:bg-violet-600 w-full" }  cursor-pointer block text-sm/6 font-medium  text-white py-2 px-3 rounded-lg mr-2 `}>
                 {editCategory ? "Modifier Catégorie" : "Ajouter Catégorie"}
               </button>
 
@@ -228,25 +261,28 @@ export const Categories = () => {
         </div>
 
         {/* ---------- */}
+     
+
+
         <div className="bg-white m-5 p-4 w-full rounded-lg  lg:w-2/3">
           <table className="w-full border border-violet-100" >
             <thead>
               <tr className="bg-violet-100">
-                <th className="px-4 py-3 font-bold text-sm/6 ">S. No</th>
-                <th   className="px-4 py-3 font-bold text-sm/6 ">Nom catégorie</th>
-                <th  className="px-4 py-3 font-bold text-sm/6 " >Description catégorie</th>
-                <th   className="px-4 py-3 font-bold text-sm/6 ">Action</th>
+                <th className="px-4 py-3 font-bold text-sm/6 text-center">S. No</th>
+                <th   className="px-4 py-3 font-bold text-sm/6  text-center">Nom catégorie</th>
+                <th  className="px-4 py-3 font-bold text-sm/6  text-center" >Description catégorie</th>
+                <th   className="px-4 py-3 font-bold text-sm/6  text-center">Action</th>
               </tr>
             </thead>
             <tbody>
 
-              {categories && categories.map((category , index) => (
+              {filtredCategories && filtredCategories.map((category , index) => (
 
               <tr key={index}>
-                <td   className="px-4 py-3 font-bold text-sm/6">{index + 1}</td>
-                <td   className="px-4 py-3 text-sm/6">{category.categoryName}</td>
-                <td   className="px-4 py-3 text-sm/6">{category.categoryDescription}</td>
-                <td   className="px-4 py-3 text-sm/6 flex flex-row">
+                <td   className="px-4 py-3 font-bold text-sm/6 text-center">{index + 1}</td>
+                <td   className="px-4 py-3 text-sm/6 text-center">{category.categoryName}</td>
+                <td   className="px-4 py-3 text-sm/6 text-center">{category.categoryDescription}</td>
+                <td   className="px-4 py-3 text-sm/6 flex flex-row justify-center items-center">
                    <button
                 className="cursor-pointer block text-sm/6 font-medium bg-blue-700 hover:bg-blue-600 text-white py-2 px-3 rounded-lg mr-2"
                 onClick={() => handleEditCategory(category)} 
@@ -275,6 +311,7 @@ export const Categories = () => {
            
             </tbody>
           </table>
+           {filtredCategories.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucune catégorie trouvée </p>}
         </div>
         {/* ---------- */}
       </div>

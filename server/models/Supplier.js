@@ -8,7 +8,7 @@ const SupplierSchema =  mongoose.Schema({
     supplierAddress : {type : String , require: true}
 });
 
-const SupplierModel = mongoose.model("suppliers" , SupplierSchema);
+const SupplierModel = mongoose.model("Supplier" , SupplierSchema);
 
 
 export default SupplierModel;
