@@ -8,10 +8,11 @@ export const Categories = () => {
   const [categoryDescription, setCategoryDescription] = useState("");
 
   const [categories , setCategories] = useState([]);
-  const [isLoading , setIsLoading] = useState(true);
+  
 
   const [editCategory , setEditCategory] = useState(null);
   const [filtredCategories , setFiltredCategories] = useState(categories);
+  const [isLoading , setIsLoading] = useState(true);
 
 
 
@@ -28,6 +29,9 @@ export const Categories = () => {
     // Modifier Categorie par id
     if (editCategory) {
       console.log("Id Catégorie" , editCategory)
+
+      try{
+        
       const response = await axios.put(
         `http://localhost:3001/api/category/${editCategory}`,
         { categoryName, categoryDescription },
@@ -37,23 +41,28 @@ export const Categories = () => {
           },
         }
       );
-      const data = await response.data.data;
+      const data = await response.data;
 
-      if (response.data.success) {
+      if (data.success) {
+        alert(data.message);
         setEditCategory(null);
-        console.log("Catégorie modifiée avec succès", data);
         handleGetCategories();
         handleCancel();
 
       } else {
-        console.error(
-          "Erreur de modification de catégorie",
-          response.data.message
-        );
+        alert(data.message);
       }
+
+      }catch(error){
+        console.error("Erreur de serevur : " , error);
+      } 
+
+
+
     } else {
       // Ajouter Categorie
-      const response = await axios.post(
+     try{
+        const response = await axios.post(
         "http://localhost:3001/api/category/add",
         { categoryName, categoryDescription },
         {
@@ -63,40 +72,56 @@ export const Categories = () => {
         }
       );
 
-      const data = await response.data.data;
+      const data = await response.data;
 
-      if (response.data.success) {
+      if (data.success) {
         setCategoryName("");
         setCategoryDescription("");
-        console.log("Catégorie ajoutée avec succès", data);
+        alert(data.message)
         handleGetCategories();
       } else {
-        console.error("Erreur d'ajout de catégorie", response.data.message);
+        alert(data.message);
       }
+
+
+     }catch(error){
+         console.log("Erreur de serveur : " , error);
+     }
+    
     };
  }
 
-
   const handleGetCategories = async () => {
-   setIsLoading(true)
-   const response = await axios.get("http://localhost:3001/api/category" , 
+  
+    try{
+      setIsLoading(true);
+      const response = await axios.get("http://localhost:3001/api/category" , 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,
         }
       });
 
-      const data = await response.data.data;
-      if (response.data.success){
-         setIsLoading(false)
-        setCategories(data)
-        setFiltredCategories(data)
+      const data = await response.data;
+      if (data.success){
+         setIsLoading(false);
+        setCategories(data.data)
+        setFiltredCategories(data.data)
         console.log(data)
       }else{
          setIsLoading(false)
-        console.error("erreur d'affichage des catégories" , response.data.message )
+         console.error(data.message);
       }
 
+    }catch(error){
+      console.error("Erreur de serveur : " , error);
+
+    }
+
+
+
+   
+   
   }
 
 
@@ -203,7 +228,7 @@ export const Categories = () => {
                     type="text"
                     placeholder="Entrer le nom de la catégorie"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     onChange={(e) => setCategoryName(e.target.value)}
                     value={categoryName}
                   />
@@ -222,7 +247,7 @@ export const Categories = () => {
                   cols="35"
                   rows="4"
                   placeholder="Entrer la description de la catégorie"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                   onChange={(e) => setCategoryDescription(e.target.value)}
                   value={categoryDescription}
 
@@ -311,7 +336,7 @@ export const Categories = () => {
            
             </tbody>
           </table>
-           {filtredCategories.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucune catégorie trouvée </p>}
+           {filtredCategories.length === 0 && <p className="text-center mt-3 text-base text-black">Aucune catégorie trouvée </p>}
         </div>
         {/* ---------- */}
       </div>

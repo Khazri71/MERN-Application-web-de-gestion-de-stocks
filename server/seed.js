@@ -12,7 +12,7 @@ const register = async () => {
     const hashPassword = await bcrypt.hash("admin" , 10);
     const newUser = new UserModel({
         userName: "admin",
-        userEmail: "admin888@gmail.com",
+        userEmail: "admin@gmail.com",
         userPassword: hashPassword,
         userAddress: "Tunis, Manouba",
         userRole : "admin"

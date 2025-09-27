@@ -13,10 +13,10 @@ export const Suppliers = () => {
     supplierAddress : ""
   });
   const [suppliers , setSuppliers] = useState([]);
-  const [isLoading , setIsLoading] = useState(false)
   const [addSupplier , setAddSupplier] = useState(false)
   const [editSupplier , setEditSupplier] = useState(null)
   const [filtredSuppliers , setFiltredSuppliers] = useState(suppliers);
+    const [isLoading , setIsLoading] = useState(false);
 
 
 
@@ -31,12 +31,10 @@ export const Suppliers = () => {
 
   const handleSubmitSupplier = async (e) => {
     e.preventDefault();
-
-
     //Modifier Fournisseur par id
     if(editSupplier){
-      console.log("Fournisseur Id" , editSupplier)
-      
+       console.log("Fournisseur Id" , editSupplier)
+   try{
       const response = await axios.put(`http://localhost:3001/api/supplier/${editSupplier}`, formData, 
         {
           headers: {
@@ -44,41 +42,58 @@ export const Suppliers = () => {
           },
         }
       );
-      const data = await response.data.data
-      if (response.data.success){
-         console.log("Fournisseur modifié avec succès" , data);
+       const data = await response.data
+      if (data.success){
+        alert(data.message)
          handleGetSuppliers();
          handleCloseModal();
       }else{
-        console.error("Erreur de modification de Fournisseur" , response.data.message)
+        console.log(data.message)
+          
       }
 
+
+   }catch(error){
+       console.error("Erreur de serveur : " , error);
+   }
+
+    
+     
     }else{
 
     //Ajouter Fournisseur 
 
-    const response = await axios.post("http://localhost:3001/api/supplier/add" , formData ,
+    try{
+      const response = await axios.post("http://localhost:3001/api/supplier/add" , formData ,
      {
       headers : {
         Authorization : `Bearer ${localStorage.getItem("info-token")}`,
       }
      });
-     const data = await response.data.data;
-     if(response.data.success){
-      console.log("Fournisseur ajouté avec succès" , data);
+     const data = await response.data;
+     if(data.success){
+      alert(data.message);
      handleCloseModal()
       handleGetSuppliers()
      
      }else{
-      console.error("Erreur d'ajout du fournisseur" , response.data.message);
+      alert(data.message)
      }
 
+    
+    }catch(error){
+     console.error("Erreur de serveur : " , error)
+    }
+
+
+    
+  
     }
   }
 
 
   const handleGetSuppliers = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const response = await axios.get("http://localhost:3001/api/supplier/" , 
       {
         headers : {
@@ -88,16 +103,16 @@ export const Suppliers = () => {
 
     );
 
-    const data = await response.data.data;
+    const data = await response.data;
 
-    if(response.data.success){
+    if(data.success){
       setIsLoading(false)
-      setSuppliers(data);
-      setFiltredSuppliers(data)
+      setSuppliers(data.data);
+      setFiltredSuppliers(data.data)
       console.log(data)
     }else{
       setIsLoading(false)
-      console.error("Erreur d'affichage des fournisseurs" , response.data.message)
+      console.error("Erreur de serveur : " , error);
     }
   }
 
@@ -184,7 +199,7 @@ const  handleSearchSuppliersByName = (e) => {
 }
 
 
-// if(isLoading) return <div>Chargement...</div>
+if(isLoading) return <div>Chargement...</div>
   return (
     <>
      <h1 className=" text-2xl font-bold my-5 ml-5">
@@ -236,7 +251,7 @@ const  handleSearchSuppliersByName = (e) => {
                     type="text"
                     placeholder="Entrer le nom du fournisseur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     onChange={handleChange}
                     name = "supplierName"
                     value={formData.supplierName}
@@ -259,7 +274,7 @@ const  handleSearchSuppliersByName = (e) => {
                     type="text"
                     placeholder="Entrer l'email du fournisseur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     onChange={handleChange}
                     name="supplierEmail"
                     value={formData.supplierEmail}
@@ -281,7 +296,7 @@ const  handleSearchSuppliersByName = (e) => {
                     type="text"
                     placeholder="Entrer le téléphone du fournisseur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     onChange={handleChange}
                     name="supplierPhone"
                     value={formData.supplierPhone}
@@ -302,7 +317,7 @@ const  handleSearchSuppliersByName = (e) => {
                   cols="35"
                   rows="4"
                   placeholder="Entrer l'adresse du fournisseur"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                   onChange={handleChange}
                   name="supplierAddress"
                   value={formData.supplierAddress}
@@ -414,7 +429,7 @@ const  handleSearchSuppliersByName = (e) => {
 
             </tbody>
           </table>
-              {filtredSuppliers.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucun fournisseur trouvé </p>}
+              {filtredSuppliers.length === 0 && <p className="text-center mt-3 text-base text-black">Aucun fournisseur trouvé </p>}
         </div>
     
     

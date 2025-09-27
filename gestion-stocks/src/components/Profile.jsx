@@ -30,6 +30,7 @@ const handleGetUser = async () => {
   
     const data = response.data;
     if(data.success){
+     
          setUser({
            name : data.data.userName,
            email : data.data.userEmail,
@@ -37,7 +38,7 @@ const handleGetUser = async () => {
            password : data.data.userPassword
          })
     }else{
-         console.error(data.message);
+         console.log(data.message);
     }
 
   }catch(error) {
@@ -83,10 +84,11 @@ const handleSubmitUpdateUser = async (e) => {
     );
     const data = response.data;
     if(data.success){
-      console.log(data.message , data.updatedUser);
+      alert(data.message)
       setEdit(false);
+      console.log(data.message , data.updatedUser);
     }else{
-      console.log(data.message)
+      alert(data.message)
     }
 
   }catch(error){
@@ -99,7 +101,7 @@ const handleSubmitUpdateUser = async (e) => {
           <h1 className="ms-5 text-2xl font-bold my-5">
        Mon Profil
       </h1>
-      <div className=" flex flex-col lg:flex-row">
+      <div className=" flex flex-col lg:flex-row  justify-center items-center">
         <div className="bg-white m-5 p-4  rounded-lg lg:w-1/3">
        
           <form 
@@ -119,7 +121,7 @@ const handleSubmitUpdateUser = async (e) => {
                     type="text"
                     placeholder="Nom utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black disabled:bg-gray-100 disabled:cursor-not-allowed"
                     onChange={handleChangeUser}
                     name = "name"
                     value={user.name}
@@ -141,7 +143,7 @@ const handleSubmitUpdateUser = async (e) => {
                     type="text"
                     placeholder="Email utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
                      onChange={handleChangeUser}
                      name = "email"
                     value={user.email}
@@ -163,7 +165,7 @@ const handleSubmitUpdateUser = async (e) => {
                     type="text"
                     placeholder="Adresse utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
                    onChange={handleChangeUser}
                    name = "address"
                     value={user.address}
@@ -184,9 +186,9 @@ const handleSubmitUpdateUser = async (e) => {
                 <div className="mt-2">
                   <input
                     id="passPro"
-                    type="pssword"
+                    type="password"
                     placeholder="Entrer nouveau mot de passe (option)"
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-400 disabled:bg-gray-200 disabled:cursor-not-allowed"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black-400 disabled:bg-gray-200 disabled:cursor-not-allowed"
                    onChange={handleChangeUser}
                     name="password"
                      disabled = {!edit} 

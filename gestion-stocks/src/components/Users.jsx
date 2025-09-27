@@ -8,7 +8,6 @@ export const Users = () => {
 
 
   const [users , setUsers] = useState([]);
-  // const [isLoading , setIsLoading] = useState(true);
 
   const [formData , setFormData] = useState({
     userName : "" ,
@@ -21,6 +20,8 @@ export const Users = () => {
 
 
   const [filtredUsers , setFiltredUsers] = useState(users);
+
+   const [isLoading , setIsLoading] = useState(false);
 
   const handleChange = (e) => {
      const {name , value} = e.target;
@@ -56,7 +57,7 @@ export const Users = () => {
       );
       const data =  response.data;
       if(data.success){
-         console.log(data.message);
+         alert(data.message);
          initialUser();
          handleGetUsers();
       }else{
@@ -64,7 +65,7 @@ export const Users = () => {
       }
 
      }catch(error){
-        console.error("Erreur de serveur" , error);
+        alert("Erreur de serveur" , error);
      }
   }
 
@@ -73,6 +74,7 @@ export const Users = () => {
 
   const handleGetUsers = async () => {
       try{
+        setIsLoading(true)
         const response = await axios.get("http://localhost:3001/api/user" , 
           {
             headers : {
@@ -83,6 +85,7 @@ export const Users = () => {
 
         const data = await response.data;
         if(data.success){
+          setIsLoading(false)
           setUsers(data.data);
           setFiltredUsers(data.data);
         }else{
@@ -90,6 +93,7 @@ export const Users = () => {
         }
 
       }catch(error){
+        setIsLoading(false)
          console.error("Erreur de serveur" , error);
       }
   }
@@ -137,7 +141,7 @@ export const Users = () => {
 
 
 
-  // if(isLoading) return <div>chargement...</div>
+  if(isLoading) return <div>chargement...</div>
 
   return (
     <>
@@ -176,7 +180,7 @@ export const Users = () => {
                     type="text"
                     placeholder="Entrer le nom de l'utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     name="userName"
                     value={formData.userName}
                     onChange={handleChange}
@@ -199,7 +203,7 @@ export const Users = () => {
                     type="text"
                     placeholder="Entrer l'email de l'utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     name="userEmail"
                     value={formData.userEmail}
                     onChange={handleChange}
@@ -223,7 +227,7 @@ export const Users = () => {
                     type="password"
                     placeholder="Entrer le mot de passe de l'utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     name="userPassword"
                     value={formData.userPassword}
                     onChange={handleChange}
@@ -247,7 +251,7 @@ export const Users = () => {
                     type="text"
                     placeholder="Entrer l'adresse de l'utilisateur"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     name="userAddress"
                     value={formData.userAddress}
                     onChange={handleChange}
@@ -271,7 +275,7 @@ export const Users = () => {
                   <select
                     id="roleUti"
                     required
-                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                    className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     name="userRole"
                     // value={formData.userRole}
                     onChange={handleChange}
@@ -350,7 +354,7 @@ export const Users = () => {
            
             </tbody>
           </table>
-           {filtredUsers.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucun utilisateur trouvé </p>}
+           {filtredUsers.length === 0 && <p className="text-center mt-3 text-base text-black">Aucun utilisateur trouvé </p>}
         </div>
         {/* ---------- */}
       </div>

@@ -51,10 +51,10 @@ export const Login = () => {
             src="logoecom.png"
             className="mx-auto h-10 w-15 h-15"
           />
-          {/* <h1 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-indigo-600">
+          <h1 className="mt-3 text-center text-2xl/9 font-bold tracking-tight text-indigo-600">
             Système de gestion des stocks
-          </h1> */}
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          </h1>
+          <h2 className="mt-10 text-center text-xl font-bold tracking-tight text-gray-900">
             Se Connecter
           </h2>
         </div>

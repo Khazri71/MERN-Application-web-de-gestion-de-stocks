@@ -16,20 +16,13 @@ export const Products = () => {
       const [categories , setCategories] = useState([]);
      const [suppliers , setSuppliers] = useState([]);
      const [products , setProducts] = useState([]);
-     const [isLoading , setIsLoading] = useState(false);
      const [addProduct , setAddProduct] = useState(false);
      const [editProduct , setEditProduct] = useState(null);
      const [filtredProducts , setFiltredProducts] = useState(products);
+    const [isLoading , setIsLoading] = useState(false);
+
+
    
-
-
-
-
-
-
-
-
-
 
       const handleChange = (e) => {
      const {name , value} = e.target;
@@ -84,13 +77,13 @@ export const Products = () => {
          );
 
         const data =  response.data;
-        if(response.data.success){
-          console.log(data.message , data.data);
+        if(data.success){
+          alert(data.message);
            handleGetProducts();
            handleCloseModal();
   
         }else{
-          console.error(data.message);
+          alert(data.message);
         }
 
 
@@ -115,11 +108,11 @@ export const Products = () => {
 
      const data = response.data;
      if(data.success){
-      console.log(data.message);
+      alert(data.message);
          handleCloseModal()
       handleGetProducts()
      }else{
-      console.error(data.message);
+      alert(data.message);
      }
   
   }catch(error){
@@ -144,7 +137,7 @@ export const Products = () => {
 
 const handleGetProducts = async () => {
    try{
-    setIsLoading(true)
+    setIsLoading(true);
       const response = await axios.get("http://localhost:3001/api/product" , 
         {
           headers : {
@@ -163,7 +156,7 @@ const handleGetProducts = async () => {
         console.log(categories , suppliers);
       }else{
         setIsLoading(false);
-        console.error(response.data.message);
+        console.error(data.message);
       }
    }catch(error){
     console.error("Erreur de serveur :" , error);
@@ -227,6 +220,8 @@ useEffect (() => {
     )
   }
 
+   if(isLoading) return <div>chargement...</div>
+
   return (
       <>
        <h1 className=" text-2xl font-bold my-5 ml-5">
@@ -278,7 +273,7 @@ useEffect (() => {
                       type="text"
                       placeholder="Entrer le nom du produit"
                       required
-                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1-outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1-outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                       onChange={handleChange}
                       name = "productName"
                       value={formData.productName}
@@ -299,7 +294,7 @@ useEffect (() => {
                      <select name="productCategoryId" 
                        onChange={handleChange}
                        value={formData.productCategoryId}
-                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                      >
                       <option value="">Choisir Catégorie</option>
                        {categories && categories.map((categorie) => (
@@ -323,7 +318,7 @@ useEffect (() => {
                     <select name="productSupplierId"
                     onChange={handleChange} 
                     value={formData.productSupplierId}
-                     className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                     className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                     >
                       <option value="">Choisir Fournisseur</option>
                       {suppliers && suppliers.map((supplier) => (
@@ -354,7 +349,7 @@ useEffect (() => {
                       min= "0"
                       placeholder="Entrer le prix du produit"
                       required
-                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                       onChange={handleChange}
                       name="productPrice"
                       value={formData.productPrice}
@@ -379,7 +374,7 @@ useEffect (() => {
                       min= "0"
                       placeholder="Entrer le stock du produit"
                       required
-                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border border-2 border-black-200"
+                      className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6 border  border-black"
                       onChange={handleChange}
                       name="productStock"
                       value={formData.productStock}
@@ -510,7 +505,7 @@ useEffect (() => {
               </tbody>
             </table>
 
-            {filtredProducts.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucun produit trouvé</p>}
+            {filtredProducts.length === 0 && <p className="text-center mt-3 text-base text-black">Aucun produit trouvé</p>}
           </div>
       
       

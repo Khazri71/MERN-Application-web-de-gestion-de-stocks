@@ -1,13 +1,13 @@
 import axios from 'axios';
 import  { useEffect, useState } from 'react'
 import { IoClose , IoSearch } from 'react-icons/io5';
+import { useNavigate } from "react-router"
 
 export const ProductsCustomer = () => {
 
       const [categories , setCategories] = useState([]);
      const [products , setProducts] = useState([]);
      const [filtredProducts , setFiltredProducts] = useState(products)
-     const [isLoading , setIsLoading] = useState(false);
      const [openModal , setOpenModal] = useState(false);
      const [quantity , setQuantity ] = useState(1);
      const [orderData , setOrderData] = useState({
@@ -18,6 +18,9 @@ export const ProductsCustomer = () => {
         stock : 0
      })
 
+       const [isLoading , setIsLoading] = useState(false);
+
+         const navigate = useNavigate()
   
 
 const handleGetProducts = async () => {
@@ -136,13 +139,15 @@ const handleSubmitOrder = async (e) => {
       }
     );
 
-    if(response.data.success){
+    const data = response.data;
+    if(data.success){
+      alert(data.message)
       setOpenModal(false);
       handleInitialOrderProduct();
-      console.log(response.data.message);
+      navigate("/customer-dashboard/orders")
 
     }else{
-      console.error(response.data.message);
+      alert(data.message)
     }
 
    }catch(error){
@@ -151,6 +156,7 @@ const handleSubmitOrder = async (e) => {
 }
 
 
+ if(isLoading) return <div>chargement...</div>
   return (
    <>
 
@@ -234,12 +240,12 @@ const handleSubmitOrder = async (e) => {
             <table className="w-full border border-violet-100" >
               <thead>
                 <tr className="bg-violet-100">
-                  <th className="px-4 py-3 font-bold text-sm/6 ">S. No</th>
-                  <th   className="px-4 py-3 font-bold text-sm/6 ">Nom </th>
-                  <th  className="px-4 py-3 font-bold text-sm/6 " >Catégorie</th> 
-                    <th  className="px-4 py-3 font-bold text-sm/6 " >Prix</th> 
-                     <th  className="px-4 py-3 font-bold text-sm/6 " >Stock</th> 
-                  <th   className="px-4 py-3 font-bold text-sm/6 ">Action</th>
+                  <th className="px-4 py-3 font-bold text-sm/6  text-center">S. No</th>
+                  <th   className="px-4 py-3 font-bold text-sm/6  text-center">Nom </th>
+                  <th  className="px-4 py-3 font-bold text-sm/6  text-center" >Catégorie</th> 
+                    <th  className="px-4 py-3 font-bold text-sm/6  text-center" >Prix</th> 
+                     <th  className="px-4 py-3 font-bold text-sm/6  text-center" >Stock</th> 
+                  <th   className="px-4 py-3 font-bold text-sm/6  text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -249,13 +255,13 @@ const handleSubmitOrder = async (e) => {
   
                 {filtredProducts && filtredProducts.map((product , index)=> (
                   <tr key={index}>
-                  <td   className="px-4 py-3 font-bold text-sm/6">{index + 1}</td>
-                  <td   className="px-4 py-3 text-sm/6">{product.productName}</td>
-                  <td   className="px-4 py-3 text-sm/6">{product.productCategoryId.categoryName}</td>
-                  <td   className="px-4 py-3 text-sm/6">{product.productPrice}</td>
+                  <td   className="px-4 py-3 font-bold text-sm/6 text-center">{index + 1}</td>
+                  <td   className="px-4 py-3 text-sm/6 text-center">{product.productName}</td>
+                  <td   className="px-4 py-3 text-sm/6 text-center">{product.productCategoryId.categoryName}</td>
+                  <td   className="px-4 py-3 text-sm/6 text-center">{product.productPrice}</td>
 
             
-                  <td   className="px-4 py-3 text-sm/6">
+                  <td   className="px-4 py-3 text-sm/6  text-center">
 
                   { product.productStock === 0  ? 
                   ( <span className="bg-red-100 text-red-500 text-xs px-2 py-1 rounded-full font-semibold"  >{product.productStock}</span> ) :
@@ -270,7 +276,7 @@ const handleSubmitOrder = async (e) => {
                   </td>
 
 
-                  <td   className="px-4 py-3 text-sm/6 flex flex-row mx-auto">
+                  <td   className="px-4 py-3 text-sm/6 flex flex-row mx-auto justify-center items-center">
                    
   
                  <button
@@ -289,7 +295,7 @@ const handleSubmitOrder = async (e) => {
               </tbody>
             </table>
 
-            {filtredProducts.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucun produit trouvé</p>}
+            {filtredProducts.length === 0 && <p className="text-center mt-3 text-base text-black">Aucun produit trouvé</p>}
           </div>
       
       

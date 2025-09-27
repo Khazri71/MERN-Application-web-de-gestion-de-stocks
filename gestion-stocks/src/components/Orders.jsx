@@ -10,9 +10,11 @@ export const Orders = () => {
 
   const [orders , setOrders] = useState([]);
   const [filtredOrders , setFiltredOrders] = useState(orders);
+  const [isLoading , setIsLoading] = useState(false)
 
   const handleGetOrders = async () => {
     try{
+      setIsLoading(true);
         const response = await axios.get("http://localhost:3001/api/order" , 
             {
                 headers : {
@@ -23,12 +25,14 @@ export const Orders = () => {
 
         const data = response.data;
         if( data.success){
+            setIsLoading(false)
             setOrders(data.data);
             setFiltredOrders(data.data);
         }else{
             console.error(data.message);
         }
     }catch(error) {
+      setIsLoading(false);
           console.error("Erreur de serveur : " , error);
     }
   }
@@ -46,6 +50,7 @@ export const Orders = () => {
 
 
 
+   if(isLoading) return <div>chargement...</div>
   return (
     <>
       <h1 className=" text-2xl font-bold my-5 ml-5">
@@ -101,7 +106,7 @@ export const Orders = () => {
               </tbody>
             </table>
 
-            {filtredOrders.length === 0 && <p className="text-center mt-3 text-base text-black-200">Aucune commande trouvée</p>}
+            {filtredOrders.length === 0 && <p className="text-center mt-3 text-base text-black">Aucune commande trouvée</p>}
           </div>
       
     
