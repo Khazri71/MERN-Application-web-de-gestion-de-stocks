@@ -26,7 +26,7 @@ export const ProductsCustomer = () => {
 const handleGetProducts = async () => {
    try{
     setIsLoading(true)
-      const response = await axios.get("http://localhost:3001/api/product" , 
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/product` , 
         {
           headers : {
             Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -131,7 +131,7 @@ const handleSubmitOrder = async (e) => {
   e.preventDefault();
    try{
   
-    const response = await axios.post("http://localhost:3001/api/order/add" , orderData , 
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/order/add` , orderData , 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,

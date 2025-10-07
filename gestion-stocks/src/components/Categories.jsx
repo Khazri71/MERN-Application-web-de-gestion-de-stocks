@@ -33,7 +33,7 @@ export const Categories = () => {
       try{
         
       const response = await axios.put(
-        `http://localhost:3001/api/category/${editCategory}`,
+        `${import.meta.env.VITE_BASE_URL}/api/category/${editCategory}`,
         { categoryName, categoryDescription },
         {
           headers: {
@@ -62,8 +62,7 @@ export const Categories = () => {
     } else {
       // Ajouter Categorie
      try{
-        const response = await axios.post(
-        "http://localhost:3001/api/category/add",
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/category/add`,
         { categoryName, categoryDescription },
         {
           headers: {
@@ -95,7 +94,7 @@ export const Categories = () => {
   
     try{
       setIsLoading(true);
-      const response = await axios.get("http://localhost:3001/api/category" , 
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/category` , 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,

@@ -19,7 +19,7 @@ export const AdminSummury = () => {
 
   const handleGetDashboardData = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/dashboard" ,
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/dashboard` ,
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -70,7 +70,7 @@ export const AdminSummury = () => {
 
          <div  className="bg-gray-500 text-white  flex flex-col justify-center items-center p-5 rounded-lg">
            <p className="text-lg font-semibold">Revenu</p>
-          <p className="text-2xl font-bold" >{dashboardData.totalRevenu}</p>
+          <p className="text-2xl font-bold" >{dashboardData.totalRevenu} DT</p>
         </div>
 
       </div>

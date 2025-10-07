@@ -22,7 +22,7 @@ const [edit , setEdit] =  useState(false);
 
 const handleGetUser = async () => {
   try{
-    const response = await axios.get("http://localhost:3001/api/user/profile" , {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/user/profile` , {
       headers : {
         Authorization : `Bearer ${localStorage.getItem("info-token")}`,
       }
@@ -74,7 +74,7 @@ const handleSubmitUpdateUser = async (e) => {
     e.preventDefault();
   try{
     
-    const response = await axios.put("http://localhost:3001/api/user/update" , user , 
+    const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/user/update` , user , 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`, 

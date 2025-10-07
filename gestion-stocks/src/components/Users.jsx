@@ -48,7 +48,7 @@ export const Users = () => {
      e.preventDefault();
 
      try{
-      const response = await axios.post("http://localhost:3001/api/user/add" , formData , 
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/user/add` , formData , 
         {
           headers : {
             Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -75,7 +75,7 @@ export const Users = () => {
   const handleGetUsers = async () => {
       try{
         setIsLoading(true)
-        const response = await axios.get("http://localhost:3001/api/user" , 
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/user`  , 
           {
             headers : {
               Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -111,7 +111,7 @@ export const Users = () => {
     console.log(confirmDelete);
     if(confirmDelete){
          try {
-       const response = await axios.delete(`http://localhost:3001/api/user/${id}` , 
+       const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/user/${id}` , 
         {
           headers : {
             Authorization : `Bearer ${localStorage.getItem('info-token')}`,

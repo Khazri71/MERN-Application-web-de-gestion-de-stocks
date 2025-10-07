@@ -20,7 +20,7 @@ export const Login = () => {
     e.preventDefault()
 
     try{
-      const response = await axios.post("http://localhost:3001/api/auth/login" , {userEmail , userPassword})
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login` , {userEmail , userPassword})
 
       if(response.status === 200){
         //Enrgistrer les informations de l'utilisateur connecté dans le localstorage
