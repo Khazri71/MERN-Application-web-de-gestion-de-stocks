@@ -26,7 +26,7 @@ app.use("/api/dashboard" , dashboardRoutes);
 
 
 
-app.listen(process.env.PORT , () => {
+app.listen(3001 , () => {
     connectDB();
     console.log("Server is Running");
 })
