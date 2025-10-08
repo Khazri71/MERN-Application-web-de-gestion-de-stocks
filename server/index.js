@@ -17,8 +17,8 @@ const app = express();
 
 app.use(cors({
   origin: [
-    "https://mern-application-web-de-gestion-de-0ml9.onrender.com", // ton frontend Render
-    "http://localhost:5173" // pour le développement local
+    "https://mern-application-web-de-gestion-de-8qm7.onrender.com", 
+    "http://localhost:5173"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
