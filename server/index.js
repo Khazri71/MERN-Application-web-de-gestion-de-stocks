@@ -14,7 +14,9 @@ import dashboardRoutes from "./routes/dashboard.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://ton-frontend.onrender.com"
+}));
 app.use(express.json());
 
 // Hello
