@@ -20,6 +20,7 @@ app.use(cors({
     "https://mern-application-web-de-gestion-de-8qm7.onrender.com", 
     "http://localhost:5173"
   ],
+  allowedHeaders: ["Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
