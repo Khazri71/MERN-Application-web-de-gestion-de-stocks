@@ -33,7 +33,7 @@ export const Categories = () => {
       try{
         
       const response = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}/api/category/${editCategory}`,
+        `${import.meta.env.VITE_BASE_URL}api/category/${editCategory}`,
         { categoryName, categoryDescription },
         {
           headers: {
@@ -62,7 +62,7 @@ export const Categories = () => {
     } else {
       // Ajouter Categorie
      try{
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/category/add`,
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}api/category/add`,
         { categoryName, categoryDescription },
         {
           headers: {
@@ -94,7 +94,7 @@ export const Categories = () => {
   
     try{
       setIsLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/category` , 
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}api/category` , 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -155,7 +155,7 @@ export const Categories = () => {
       const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette catégorie ?");
     console.log(confirmDelete)
     if(confirmDelete){
-        const response = await axios.delete(`http://localhost:3001/api/category/${id}` , 
+        const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}category/${id}` , 
           {
             headers : {
               Authorization : `Bearer ${localStorage.getItem("info-token")}`,
