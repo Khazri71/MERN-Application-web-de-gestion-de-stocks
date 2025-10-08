@@ -1,5 +1,5 @@
 
-import { data } from "react-router";
+
 import CategoryModel from "../models/Category.js";
 import ProductModel from "../models/Product.js";
 
