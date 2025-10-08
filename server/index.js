@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import dotenv from 'dotenv';
 import connectDB from "./db/connection.js";
 import authRoutes from "./routes/auth.js";
 import categoryRoutes from "./routes/category.js";
@@ -9,6 +10,8 @@ import userRoutes from "./routes/user.js";
 import orderRoutes from "./routes/order.js";
 import dashboardRoutes from "./routes/dashboard.js";
 
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
