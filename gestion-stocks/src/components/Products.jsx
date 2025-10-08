@@ -68,7 +68,7 @@ export const Products = () => {
       //Modifier produit par id
       console.log("Produit Id" , editProduct);
       try{
-         const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/product/${editProduct}` , formData , 
+         const response = await axios.put(`${import.meta.env.VITE_BASE_URL}api/product/${editProduct}` , formData , 
           {
             headers : {
               Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -98,7 +98,7 @@ export const Products = () => {
        //Ajouter produit 
 
            try {
-     const response = await  axios.post( `${import.meta.env.VITE_BASE_URL}/api/product/add` , formData , 
+     const response = await  axios.post( `${import.meta.env.VITE_BASE_URL}api/product/add` , formData , 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -138,7 +138,7 @@ export const Products = () => {
 const handleGetProducts = async () => {
    try{
     setIsLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/product` , 
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}api/product` , 
         {
           headers : {
             Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -191,7 +191,7 @@ useEffect (() => {
     console.log(confirmDelete);
     if(confirmDelete){
       try{
-        const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/product/${id}` , 
+        const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}api/product/${id}` , 
           {
             headers : {
               Authorization : `Bearer ${localStorage.getItem("info-token")}`,
