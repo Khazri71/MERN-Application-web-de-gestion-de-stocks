@@ -15,7 +15,9 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: "https://mern-application-web-de-gestion-de-0ml9.onrender.com/"
+  origin: "https://mern-application-web-de-gestion-de-0ml9.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 app.use(express.json());
 
