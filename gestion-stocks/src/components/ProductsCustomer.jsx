@@ -26,7 +26,7 @@ export const ProductsCustomer = () => {
 const handleGetProducts = async () => {
    try{
     setIsLoading(true)
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/product` , 
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}api/product` , 
         {
           headers : {
             Authorization : `Bearer ${localStorage.getItem("info-token")}`,
