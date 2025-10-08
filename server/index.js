@@ -13,13 +13,15 @@ import dashboardRoutes from "./routes/dashboard.js";
 
 dotenv.config();
 const app = express();
+
+
 app.use(cors({
   origin: [
-    "https://mern-application-web-de-gestion-de-2k1w.onrender.com/",
-    "http://localhost:5173"
+    "https://mern-application-web-de-gestion-de-0ml9.onrender.com", // ton frontend Render
+    "http://localhost:5173" // pour le développement local
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true // si tu utilises des cookies ou JWT
+  credentials: true
 }));
 
 
