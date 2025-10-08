@@ -1,6 +1,7 @@
 import express from "express";
 import { addCategory, getCategories , updateCategory , deleteCategory } from "../controllers/categoryController.js";
-import authMiddleware from "../middleware/authmiddleware.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+
 
 
 
