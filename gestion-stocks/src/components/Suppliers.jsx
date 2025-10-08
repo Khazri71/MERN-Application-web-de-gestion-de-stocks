@@ -35,7 +35,7 @@ export const Suppliers = () => {
     if(editSupplier){
        console.log("Fournisseur Id" , editSupplier)
    try{
-      const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/supplier/${editSupplier}`, formData, 
+      const response = await axios.put(`${import.meta.env.VITE_BASE_URL}api/supplier/${editSupplier}`, formData, 
         {
           headers: {
             Authorization : `Bearer ${localStorage.getItem("info-token")}`
@@ -64,7 +64,7 @@ export const Suppliers = () => {
     //Ajouter Fournisseur 
 
     try{
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/supplier/add` , formData ,
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}api/supplier/add` , formData ,
      {
       headers : {
         Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -94,7 +94,7 @@ export const Suppliers = () => {
 
   const handleGetSuppliers = async () => {
     setIsLoading(true);
-    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/supplier/`, 
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}api/supplier/`, 
       {
         headers : {
           Authorization : `Bearer ${localStorage.getItem("info-token")}`,
@@ -169,7 +169,7 @@ export const Suppliers = () => {
 
     if(confirmDelete){
       
-      const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/supplier/${id}`, {
+      const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}api/supplier/${id}`, {
       headers : {
         Authorization : `Bearer ${localStorage.getItem("info-token")}`,
       }
