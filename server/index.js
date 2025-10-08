@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
   origin: [
-    "https://mern-application-web-de-gestion-de-0ml9.onrender.com",
+    "https://mern-application-web-de-gestion-de-2k1w.onrender.com/",
     "http://localhost:5173"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
