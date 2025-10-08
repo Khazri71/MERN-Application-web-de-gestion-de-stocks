@@ -16,6 +16,13 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Hello
+app.get('/', (req, res) => {
+  res.send('Hello');
+});
+
+
 app.use("/api/auth/" , authRoutes);
 app.use("/api/category" , categoryRoutes);
 app.use("/api/supplier" , supplierRoutes);
