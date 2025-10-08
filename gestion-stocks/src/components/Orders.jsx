@@ -15,7 +15,7 @@ export const Orders = () => {
   const handleGetOrders = async () => {
     try{
       setIsLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/order` , 
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}api/order` , 
             {
                 headers : {
                     Authorization : `Bearer ${localStorage.getItem("info-token")}`,
